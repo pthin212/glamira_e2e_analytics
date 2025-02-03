@@ -1,0 +1,15 @@
+sources:
+  - name: glamira_data
+    database: striking-figure-445310-d1
+    schema: glamira_data
+    tables:
+      - name: exchange_rates
+        identifier: exchange_rates
+      - name: products
+        identifier: products
+      - name: raw_events
+        identifier: raw_events_v2
+      - name: user_ip_locations
+        identifier: user_ip_locations
+      - name: stg_checkout_source
+        identifier: stg_checkout_source

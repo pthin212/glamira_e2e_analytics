@@ -1,0 +1,29 @@
+[0m21:24:25.456182 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000218DAF9CC20>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000218D90E8B90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000218DC087ED0>]}
+
+
+============================== 21:24:25.460414 | e717040b-5feb-4d60-838b-ec1ca5ec8e4d ==============================
+[0m21:24:25.460414 [info ] [MainThread]: Running with dbt=1.9.1
+[0m21:24:25.461114 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': 'C:\\Users\\thinh\\.dbt', 'debug': 'False', 'version_check': 'True', 'log_path': 'logs', 'fail_fast': 'False', 'warn_error': 'None', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'None', 'quiet': 'False', 'no_print': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'invocation_command': 'dbt init', 'introspect': 'True', 'static_parser': 'True', 'target_path': 'None', 'log_format': 'default', 'send_anonymous_usage_stats': 'True'}
+[0m21:24:53.605695 [debug] [MainThread]: Starter project path: C:\Users\thinh\Desktop\dbt_workspace\dbt_venv\Lib\site-packages\dbt\include\starter_project
+[0m21:24:53.631129 [info ] [MainThread]: 
+Your new dbt project "glamira_dbt_proj" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m21:24:53.633504 [info ] [MainThread]: Setting up your profile.
+[0m21:30:07.666478 [info ] [MainThread]: Profile glamira_dbt_proj written to C:\Users\thinh\.dbt\profiles.yml using target's profile_template.yml and your supplied values. Run 'dbt debug' to validate the connection.
+[0m21:30:07.668972 [debug] [MainThread]: Command `dbt init` succeeded at 21:30:07.668685 after 342.35 seconds
+[0m21:30:07.669789 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000218ED3B3490>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000218DC122330>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000218ED327AC0>]}
+[0m21:30:07.670651 [debug] [MainThread]: Flushing usage events
+[0m21:30:09.237701 [debug] [MainThread]: An error was encountered while trying to flush usage events

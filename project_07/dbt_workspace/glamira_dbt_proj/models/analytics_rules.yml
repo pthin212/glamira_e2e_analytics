@@ -1,0 +1,26 @@
+sources:
+  - name: glamira_data
+    database: striking-figure-445310-d1
+    schema: glamira_data
+    tables:
+      # Staging
+      - name: stg_cart_product
+        identifier: stg_cart_product
+      - name: stg_date
+        identifier: stg_date
+      - name: stg_geo
+        identifier: stg_geo
+      - name: stg_order
+        identifier: stg_order
+      - name: stg_product
+        identifier: stg_product
+      
+      # Dimention
+      - name: dim_date
+        identifier: dim_date
+      - name: dim_geo
+        identifier: dim_geo
+      - name: dim_product_option
+        identifier: dim_product_option
+      - name: dim_product
+        identifier: dim_product

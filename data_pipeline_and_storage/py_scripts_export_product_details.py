@@ -1,31 +1,35 @@
+import configparser
 import pymongo
 import json
 import logging
+import datetime
+import os
 from google.cloud import storage
+from google.cloud import exceptions
 
-# MongoDB connection details
-mongodb_uri = "mongodb://localhost:27017/"
-db_name = "glamiradb"
+
+CONFIG_FILE = "config.ini"
+config = configparser.ConfigParser()
+config.read(CONFIG_FILE)
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+batch_size = int(config["app"]["batch_size"])
+
+# MongoDB configuration
+mongodb_uri = config["mongodb"]["uri"]
+db_name = config["mongodb"]["database"]
 main_collection_name = "product_details"
 
 # GCS configuration
-bucket_name = "raw_gcpdp_01"
-output_blob_name = "product_details.json"
+bucket_name = config["gcs"]["bucket"]
+now = datetime.datetime.now()
+timestamp = now.strftime("%Y%m%d_%H%M%S")
+output_blob_name = f"product_details_{timestamp}.jsonl"
 
-# Logging configuration
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-# Batch size
-batch_size = 1000
 
 def export_to_gcs():
     """
-    Exports data from MongoDB to GCS in JSON format using batch processing.
-
-    Connects to the specified MongoDB collection, retrieves data in batches,
-    formats it as a JSON array, and uploads it to the specified GCS bucket.
-    Handles potential errors during the process and ensures proper disconnection
-    from MongoDB.
+    Exports all data from MongoDB to a single JSONL file - Product details in GCS using batch processing.
     """
 
     try:
@@ -35,41 +39,32 @@ def export_to_gcs():
         collection = db[main_collection_name]
 
         # Initialize GCS client and specify bucket/blob
-        storage_client = storage.Client()
+        try:
+            storage_client = storage.Client()
+        except Exception as e:
+            logging.error(f"Failed to initialize GCS client: {e}")
+            return
         bucket = storage_client.bucket(bucket_name)
         blob = bucket.blob(output_blob_name)
 
         logging.info(f"Connected to MongoDB collection '{main_collection_name}' and GCS")
 
-        # Open the blob for writing in JSON array format
+        # Open the blob for writing in JSONL format
         with blob.open('w') as f:
-            f.write('[') # Start of JSON array
-            first_batch = True # Flag to handle the first batch (no comma)
-            skip = 0 # Number of documents to skip (for batching)
+            skip = 0
 
             while True:
-                # Retrieve a batch of documents, excluding the _id field
+                # Retrieve a batch of documents - excluding the _id field
                 cursor = collection.find({}, {"_id": 0}).skip(skip).limit(batch_size)
                 documents = list(cursor)
 
-                # Exit the loop if no more documents are found
                 if not documents:
                     break
-                
-                # Write each document to the blob as a JSON object
-                for i, doc in enumerate(documents):
-                    # Add a comma before each document except the first one
-                    if not first_batch or i > 0:
-                        f.write(',')
-                    # Convert the document to JSON string and write to the file
-                    json.dump(doc, f, default=str)
 
-                # Reset the first_batch flag after the first batch is processed
-                first_batch = False
-                # Increment the skip counter for the next batch
+                for doc in documents:
+                    f.write(json.dumps(doc, default=str) + '\n')
+
                 skip += batch_size
-
-            f.write(']')
 
         logging.info(f"Uploaded data from '{main_collection_name}' to gs://{bucket_name}/{output_blob_name}")
 

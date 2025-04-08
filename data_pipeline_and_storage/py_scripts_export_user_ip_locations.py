@@ -1,27 +1,37 @@
+import configparser
 import pymongo
 import json
 import logging
+import datetime
+import os
 from google.cloud import storage
+from google.cloud import exceptions
 
-# MongoDB connection details
-mongodb_uri = "mongodb://localhost:27017/"
-db_name = "glamiradb"
+
+CONFIG_FILE = "config.ini"
+config = configparser.ConfigParser()
+config.read(CONFIG_FILE)
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+batch_size = int(config["app"]["batch_size"])
+
+# MongoDB configuration
+mongodb_uri = config["mongodb"]["uri"]
+db_name = config["mongodb"]["database"]
 main_collection_name = "user_ip_locations"
 
-# GCS bucket name
-bucket_name = "raw_gcpdp_01"
+# GCS configuration
+bucket_name = config["gcs"]["bucket"]
+now = datetime.datetime.now()
+timestamp = now.strftime("%Y%m%d_%H%M%S")
+output_blob_name = f"user_ip_locations_{timestamp}.jsonl"
 
-# GCS output file name (single file)
-output_blob_name = "user_ip_locations.json"
-
-# Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-# Batch size 
-batch_size = 10000
 
 def export_to_gcs():
-    """Exports all data from MongoDB to a single JSON file in GCS using batch processing."""
+    """
+    Exports all data from MongoDB to a single JSONL file - IP Locations in GCS using batch processing.
+    """
+
     try:
         # MongoDB connection
         client = pymongo.MongoClient(mongodb_uri)
@@ -35,9 +45,8 @@ def export_to_gcs():
 
         logging.info("Connected to MongoDB and GCS")
 
-        with blob.open('w') as f:  # Open the blob for writing
-            f.write('[')  # Start the JSON array
-            first_batch = True
+        # Open the blob for writing in JSONL format
+        with blob.open('w') as f:
             skip = 0
 
             while True:
@@ -47,15 +56,10 @@ def export_to_gcs():
                 if not documents:
                     break
 
-                for i, doc in enumerate(documents):
-                    if not first_batch or i > 0:
-                        f.write(',')  # Add comma separator between documents
-                    json.dump(doc, f, default=str)  # Write each document
+                for doc in documents:
+                    f.write(json.dumps(doc, default=str) + '\n')
 
-                first_batch = False
                 skip += batch_size
-
-            f.write(']')  # Close the JSON array
 
         logging.info(f"Uploaded all documents to gs://{bucket_name}/{output_blob_name}")
 

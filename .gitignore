@@ -1,0 +1,14 @@
+__pycache__/
+.env
+venv/
+*.log
+crawler.log
+.DS_Store
+*.pytest_cache/
+.cache/
+checkpoint.txt
+.python-version
+target/
+dbt_packages/
+logs/
+.idea

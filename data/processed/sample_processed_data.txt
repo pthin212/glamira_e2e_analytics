@@ -1,0 +1,53 @@
+{
+  "table": "fact_sales",
+  "data": {
+    "order_id": 620294682,
+    "product_id": 90431,
+    "date_key": "2020-05-18",
+    "ip_address": "80.187.98.17",
+    "USD_price": 226.8,
+    "quantity": 2,
+    "original_currency": "€",
+    "product_option_id": "pgwp0lYHOiCDFAZikD8D2xU9SCPceAc+7HJXV9buJZM="
+  }
+}
+{
+  "table": "dim_date",
+  "data": {
+    "date_key": "2010-01-04",
+    "full_date": "2010-01-04",
+    "day_of_week": "Monday",
+    "day_of_week_short": "Mon",
+    "year_month": "2010-01",
+    "month": "January",
+    "year": 2010,
+    "year_number": 2010,
+    "is_weekday_or_weekend": "Weekday"
+  }
+}
+{
+  "table": "dim_geo",
+  "data": {
+    "ip_address": "86.99.227.82",
+    "country_code": "AE",
+    "country_name": "United Arab Emirates",
+    "region": "'Ajman",
+    "city": "'Ajman"
+  }
+}
+{
+  "table": "dim_product",
+  "data": {
+    "product_id": 107722,
+    "product_name": "Abielusõrmus Alluring Fancy 5 mm",
+    "url": "https://www.glamira.ee/alluring-fancy-5-mm.html?stone=diamond-Zirconia&fbclid=IwAR2EdWrM4Aobm2-CnDdGHlceJUp8ET9Kn1iQ-zu32d53L_68Inu4aTx3-wk&alloy=white-585"
+  }
+}
+{
+  "table": "dim_product_option",
+  "data": {
+    "product_option_id": "UyNnyKgiQoxJg7lbXy07CeEHFHc9ZFID6MxUctoO+vU=",
+    "option_label": "alloy",
+    "value_label": "Gelbgold 750"
+  }
+}

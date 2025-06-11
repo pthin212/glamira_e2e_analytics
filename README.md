@@ -56,3 +56,9 @@ The following steps outline the full lifecycle of the ***ELT pipeline***, from s
 This section illustrates ***how data flows through dbt models***, ensuring full transparency and traceability ***from raw ingestion to analytical outputs***.
 
 ![](img/data_lineage.png)
+
+## 4. Analytical Data Model
+
+The architecture adopts a **star schema** structure, with a central **fact table** `fact_sales` capturing transactional data and referencing **conformed dimensions** for contextual **OLAP-style** querying.
+
+![Star Schema Diagram](img/star_schema.png)
